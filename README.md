@@ -1,5 +1,16 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## node.js install
+$ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
+
+$ nvm install --lts
+
+## yarn install
+$ brew install yarn
+
+## create project
+$ npx create-react-app project-name
+
 ## Available Scripts
 
 In the project directory, you can run:
