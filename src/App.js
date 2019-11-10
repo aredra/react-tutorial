@@ -1,26 +1,27 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Hello from './Hello';
+import Wrapper from './Wrapper';
 
 function App() {
+  // const name = "Start React!";
+  const style = {
+    backgroundColor: "black",
+    color: "aqua",
+    fontSize: 24,
+    padding: "1rem"
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          {/* Edit <code>src/App.js</code> and save to reload. */}
-          Welcome Aredra!!
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Wrapper>
+      {/* isSpecial 지정하지 않을 경우 true로 인식 */}
+      <Hello name="React" color="red" isSpecial/>
+      <Hello style={style}/>
+      <div className="gray-box"></div>
+      {/* blah blah 
+            <div style={style}>{name}</div>
+      */}
+    </Wrapper>
   );
 }
 
