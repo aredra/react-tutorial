@@ -4,6 +4,7 @@ import Hello from './Hello';
 import Wrapper from './Wrapper';
 import Counter from './counter';
 import InputSample from './InputSample';
+import UserList from './User';
 
 function App() {
   // const name = "Start React!";
@@ -26,6 +27,8 @@ function App() {
       {/* blah blah 
             <div style={style}>{name}</div>
       */}
+      <br/>
+      <UserList></UserList>
     </Wrapper>
   );
 }
