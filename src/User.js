@@ -3,30 +3,12 @@ import React from 'react';
 function User({user}) {
     return (
         <div>
-            <b>{user.name}</b> ({user.email})
+            <b>{user.username}</b> ({user.email})
         </div>
     );
 }
 
-function UserList() {
-    const users = [
-        {
-            id: 1,
-            name: 'aredra',
-            email: 'aredra@gmail.com'
-        },
-        {
-            id: 2,
-            name: 'dev1',
-            email: 'dev1@example.co.kr',
-        },
-        {
-            id: 3,
-            name: 'test',
-            email: 'test@test.com'
-        }
-    ];
-
+function UserList({users}) {
     return (
         <div>
         {
