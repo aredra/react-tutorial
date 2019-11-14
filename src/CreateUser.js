@@ -14,7 +14,7 @@ function CreateUser({username, email, onChange, onCreate}) {
                 placeholder='email'
                 onChange={onChange}
                 value={email}
-            />
+            /> 
             <button onClick={onCreate}>Registeration</button>
         </>
     );
