@@ -1,4 +1,4 @@
-import React, {useState, useRef, useMemo} from 'react';
+import React, {useState, useRef, useMemo, useCallback} from 'react';
 import './App.css';
 import Hello from './Hello';
 import Wrapper from './Wrapper';
@@ -49,47 +49,47 @@ function App() {
 
   const {username, email} = inputs;
 
-  const onChange = e => {
+  const onChange = useCallback(e => {
     const {name, value} = e.target;
     setInputs({
       ...inputs,
       [name]: value
     });
-  }
+  }, [inputs]);
 
   const nextId = useRef(4);
 
-  const onCreate = () => {
+  const onCreate = useCallback(() => {
     const newbie = {
       id: nextId.current,
       username,
       email,
     }
 
-   // setUsers(users.concat(newbie));
+   setUsers(users => users.concat(newbie));
     // 배열도 마찬가지로 불변성 확인, push splice sort  금지
-    setUsers([
-      ...users,
-      newbie
-    ]);
+    // setUsers([
+    //   ...users,
+    //   newbie
+    // ]);
     setInputs({
       username: '',
       email: ''
     });
     nextId.current += 1;
-  }
+  }, [username, email]);
 
-  const onRemove = id => {
-    setUsers(users.filter(user => user.id !== id));
-  }
+  const onRemove = useCallback(id => {
+    setUsers(users => users.filter(user => user.id !== id));
+  }, []);
 
-  const onToggle = id => {
-    setUsers(users.map(user => 
+  const onToggle = useCallback(id => {
+    setUsers(users => users.map(user => 
         user.id === id  
           ? { ...user, active: !user.active}
           : user
     ));
-  }
+  }, []);
 
   const count = useMemo(() => countActiveUsers(users), [users]);
 

@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
 
-function User({user, onRemove, onToggle}) {
+const User = React.memo(function User({user, onRemove, onToggle}) {
     const {id, username, email, active} = user;
 
     useEffect(()=> {
-        console.log(`${user} is mounted or updated`);
+        console.log(`${id} is mounted or updated`);
         // prop-> state
         // REST API
         // 라이브러리 참조
@@ -12,10 +12,10 @@ function User({user, onRemove, onToggle}) {
         return () => {
             // clearInterval, cleartTimeout
             // remove library instance
-            console.log(`${user} is before updated or unmounted`)
+            console.log(`${id} is before updated or unmounted`)
         }
         // checking
-    }, [user]);
+    }, [id]);
 
     return (
         <div>
@@ -32,7 +32,7 @@ function User({user, onRemove, onToggle}) {
             <button onClick={() => onRemove(id)}>Delete</button>
         </div>
     );
-}
+});
 
 function UserList({users, onRemove, onToggle}) {
     return (
@@ -55,4 +55,4 @@ function UserList({users, onRemove, onToggle}) {
     );
 }
 
-export default UserList;
+export default React.memo(UserList);
