@@ -2,7 +2,7 @@ import React from "react";
 
 function Wrapper({children}) {
     const style = {
-        border: "5px solid black",
+        border: "5px solid lightgray",
         padding: 16
     }
 

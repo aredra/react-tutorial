@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useMemo} from 'react';
 import './App.css';
 import Hello from './Hello';
 import Wrapper from './Wrapper';
@@ -6,6 +6,11 @@ import Counter from './counter';
 import InputSample from './InputSample';
 import UserList from './User';
 import CreateUser from './CreateUser';
+
+function countActiveUsers(users) {
+  console.log('countActiveUsers is run');
+  return users.filter(user => user.active).length;
+}
 
 function App() {
   // const name = "Start React!";
@@ -36,7 +41,7 @@ function App() {
         active: false
     }
   ]);
-  
+
   const [inputs, setInputs] = useState({
     username: '',
     email: ''
@@ -86,6 +91,7 @@ function App() {
     ));
   }
 
+  const count = useMemo(() => countActiveUsers(users), [users]);
 
   return (
     <Wrapper>
@@ -111,6 +117,7 @@ function App() {
         onChange={onChange}
         onCreate={onCreate}
       />
+      <div>Actived Count : {count}</div>
     </Wrapper>
   );
 }
