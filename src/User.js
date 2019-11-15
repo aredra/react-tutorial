@@ -1,17 +1,26 @@
 import React from 'react';
 
-function User({user, onRemove}) {
-    const {id, username, email} = user;
+function User({user, onRemove, onToggle}) {
+    const {id, username, email, active} = user;
 
     return (
         <div>
-            <b>{username}</b> ({email}) 
+            <b style={{
+                color: active ? 'green' : 'black',
+                cursor: 'pointer'
+            }}
+            onClick={()=>onToggle(id)}
+            >
+                {username}
+            </b>
+            &nbsp;
+            <span>({email})</span>
             <button onClick={() => onRemove(id)}>Delete</button>
         </div>
     );
 }
 
-function UserList({users, onRemove}) {
+function UserList({users, onRemove, onToggle}) {
     return (
         <div>
         {
@@ -20,7 +29,12 @@ function UserList({users, onRemove}) {
             // users.map((user, index) => <User user={user} key={index}/>)
             users.map(
                     user =>
-                        <User user={user} onRemove={onRemove} key={user.id}/>
+                        <User 
+                            user={user}
+                            onRemove={onRemove}
+                            onToggle={onToggle}    
+                            key={user.id}
+                        />
                 )
         }
         </div>

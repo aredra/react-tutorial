@@ -20,17 +20,20 @@ function App() {
     {
         id: 1,
         username: 'aredra',
-        email: 'aredra@gmail.com'
+        email: 'aredra@gmail.com',
+        active: true
     },
     {
         id: 2,
         username: 'dev1',
         email: 'dev1@example.co.kr',
+        active: false
     },
     {
         id: 3,
         username: 'test',
-        email: 'test@test.com'
+        email: 'test@test.com',
+        active: false
     }
   ]);
   
@@ -55,7 +58,7 @@ function App() {
     const newbie = {
       id: nextId.current,
       username,
-      email
+      email,
     }
 
    // setUsers(users.concat(newbie));
@@ -75,6 +78,15 @@ function App() {
     setUsers(users.filter(user => user.id !== id));
   }
 
+  const onToggle = id => {
+    setUsers(users.map(user => 
+        user.id === id  
+          ? { ...user, active: !user.active}
+          : user
+    ));
+  }
+
+
   return (
     <Wrapper>
       {/* isSpecial 지정하지 않을 경우 true로 인식 */}
@@ -88,7 +100,11 @@ function App() {
             <div style={style}>{name}</div>
       */}
       <br/>
-      <UserList users={users} onRemove={onRemove}></UserList>
+      <UserList 
+        users={users} 
+        onRemove={onRemove}         
+        onToggle={onToggle}
+      />
       <CreateUser 
         username={username}
         email={email}
