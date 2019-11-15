@@ -1,7 +1,21 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 function User({user, onRemove, onToggle}) {
     const {id, username, email, active} = user;
+
+    useEffect(()=> {
+        console.log(`${user} is mounted or updated`);
+        // prop-> state
+        // REST API
+        // 라이브러리 참조
+        // setInterval, setTimeout
+        return () => {
+            // clearInterval, cleartTimeout
+            // remove library instance
+            console.log(`${user} is before updated or unmounted`)
+        }
+        // checking
+    }, [user]);
 
     return (
         <div>
