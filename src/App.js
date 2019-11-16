@@ -1,4 +1,4 @@
-import React, {useState, useRef, useMemo, useCallback} from 'react';
+import React, {useReducer, useRef, useMemo, useCallback} from 'react';
 import './App.css';
 import Hello from './Hello';
 import Wrapper from './Wrapper';
@@ -7,8 +7,73 @@ import InputSample from './InputSample';
 import UserList from './User';
 import CreateUser from './CreateUser';
 
+function reducer(state, action) {
+  switch (action.type) {
+    case 'CHANGE_INPUT' :
+      return {
+        ...state,
+        inputs: {
+          ...state.inputs,
+          [action.name]: action.value
+        }
+      };
+    case 'CREATE_USER' : 
+      return {
+        inputs: initialState.inputs,
+        users: state.users.concat(action.user)
+      };
+    case 'REMOVE_USER' :
+      return {
+        ...state,
+        users: state.users.filter(user =>
+            user.id !== action.id
+          )
+      };
+    case 'TOGGLE_USER' :
+      console.log(action.id);
+      return {
+        ...state,
+        users: state.users.map(user =>
+          user.id === action.id 
+            ? {...user, active: !user.active} 
+            : user
+          ) 
+      };
+    default : 
+      throw new Error('Unhandled action in App.js-reducer');
+  }
+}
+
+const initialState = {
+  inputs: {
+    username: '',
+    email: ''
+  },
+  users: [
+    {
+      id: 1,
+      username: 'aredra',
+      email: 'aredra@gmail.com',
+      active: true
+  },
+  {
+      id: 2,
+      username: 'dev1',
+      email: 'dev1@example.co.kr',
+      active: false
+  },
+  {
+      id: 3,
+      username: 'test',
+      email: 'test@test.com',
+      active: false
+  }
+  ]
+}
+
 function countActiveUsers(users) {
   console.log('countActiveUsers is run');
+  console.log(users);
   return users.filter(user => user.active).length;
 }
 
@@ -20,78 +85,47 @@ function App() {
     fontSize: 24,
     padding: "1rem"
   }
-  
-  const [users, setUsers] = useState([
-    {
-        id: 1,
-        username: 'aredra',
-        email: 'aredra@gmail.com',
-        active: true
-    },
-    {
-        id: 2,
-        username: 'dev1',
-        email: 'dev1@example.co.kr',
-        active: false
-    },
-    {
-        id: 3,
-        username: 'test',
-        email: 'test@test.com',
-        active: false
-    }
-  ]);
 
-  const [inputs, setInputs] = useState({
-    username: '',
-    email: ''
-  });
-
-  const {username, email} = inputs;
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const {username, email} = state.inputs;
+  const {users} = state;
+  const nextId = useRef(4);
 
   const onChange = useCallback(e => {
     const {name, value} = e.target;
-    setInputs({
-      ...inputs,
-      [name]: value
+    dispatch({
+      type: 'CHANGE_INPUT',
+      name,
+      value
     });
-  }, [inputs]);
-
-  const nextId = useRef(4);
+  }, []);
 
   const onCreate = useCallback(() => {
-    const newbie = {
-      id: nextId.current,
-      username,
-      email,
-    }
-
-   setUsers(users => users.concat(newbie));
-    // 배열도 마찬가지로 불변성 확인, push splice sort  금지
-    // setUsers([
-    //   ...users,
-    //   newbie
-    // ]);
-    setInputs({
-      username: '',
-      email: ''
+    dispatch({
+      type: 'CREATE_USER',
+      user: {
+        id: nextId.current,
+        username,
+        email
+      }
     });
     nextId.current += 1;
   }, [username, email]);
 
   const onRemove = useCallback(id => {
-    setUsers(users => users.filter(user => user.id !== id));
+    dispatch({
+      type: 'REMOVE_USER',
+      id
+    });
   }, []);
 
   const onToggle = useCallback(id => {
-    setUsers(users => users.map(user => 
-        user.id === id  
-          ? { ...user, active: !user.active}
-          : user
-    ));
+    dispatch({
+      type: 'TOGGLE_USER',
+      id
+    });
   }, []);
-
-  const count = useMemo(() => countActiveUsers(users), [users]);
+  const count = useMemo(() =>  countActiveUsers(users), [users]);
 
   return (
     <Wrapper>
