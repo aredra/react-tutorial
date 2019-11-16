@@ -2,7 +2,7 @@ import React, {useState, useRef, useMemo, useCallback} from 'react';
 import './App.css';
 import Hello from './Hello';
 import Wrapper from './Wrapper';
-import Counter from './counter';
+import Counter from './Counter';
 import InputSample from './InputSample';
 import UserList from './User';
 import CreateUser from './CreateUser';
