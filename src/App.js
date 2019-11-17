@@ -8,6 +8,7 @@ import UserList from './User';
 import CreateUser from './CreateUser';
 //import useInputsState from './useInputsState';
 import useInputsReducer from './useInputsReducer';
+import ContextSample from './ContextSample';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -155,6 +156,8 @@ function App() {
         onCreate={onCreate}
       />
       <div>Actived Count : {count}</div>
+      &nbsp;
+      <ContextSample />
     </Wrapper>
   );
 }
