@@ -6,17 +6,19 @@ import Counter from './Counter';
 import InputSample from './InputSample';
 import UserList from './User';
 import CreateUser from './CreateUser';
+//import useInputsState from './useInputsState';
+import useInputsReducer from './useInputsReducer';
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'CHANGE_INPUT' :
-      return {
-        ...state,
-        inputs: {
-          ...state.inputs,
-          [action.name]: action.value
-        }
-      };
+    // case 'CHANGE_INPUT' :
+    //   return {
+    //     ...state,
+    //     inputs: {
+    //       ...state.inputs,
+    //       [action.name]: action.value
+    //     }
+    //   };
     case 'CREATE_USER' : 
       return {
         inputs: initialState.inputs,
@@ -45,10 +47,6 @@ function reducer(state, action) {
 }
 
 const initialState = {
-  inputs: {
-    username: '',
-    email: ''
-  },
   users: [
     {
       id: 1,
@@ -86,19 +84,23 @@ function App() {
     padding: "1rem"
   }
 
+  const [form, onChange, onReset] = useInputsReducer({
+    username: '',
+    email: ''
+  })
   const [state, dispatch] = useReducer(reducer, initialState);
-  const {username, email} = state.inputs;
+  const {username, email} =form;
   const {users} = state;
   const nextId = useRef(4);
 
-  const onChange = useCallback(e => {
-    const {name, value} = e.target;
-    dispatch({
-      type: 'CHANGE_INPUT',
-      name,
-      value
-    });
-  }, []);
+  // const onChange = useCallback(e => {
+  //   const {name, value} = e.target;
+  //   dispatch({
+  //     type: 'CHANGE_INPUT',
+  //     name,
+  //     value
+  //   });
+  // }, []);
 
   const onCreate = useCallback(() => {
     dispatch({
@@ -110,7 +112,8 @@ function App() {
       }
     });
     nextId.current += 1;
-  }, [username, email]);
+    onReset();
+  }, [username, email, onReset]);
 
   const onRemove = useCallback(id => {
     dispatch({
