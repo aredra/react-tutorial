@@ -1,4 +1,5 @@
-import React, {useReducer, useRef, useMemo, useCallback} from 'react';
+import React, {useReducer, useMemo,  createContext} from 'react';
+import produce from 'immer';
 import './App.css';
 import Hello from './Hello';
 import Wrapper from './Wrapper';
@@ -7,7 +8,7 @@ import InputSample from './InputSample';
 import UserList from './User';
 import CreateUser from './CreateUser';
 //import useInputsState from './useInputsState';
-import useInputsReducer from './useInputsReducer';
+//import useInputsReducer from './useInputsReducer';
 import ContextSample from './ContextSample';
 
 function reducer(state, action) {
@@ -21,27 +22,37 @@ function reducer(state, action) {
     //     }
     //   };
     case 'CREATE_USER' : 
-      return {
-        inputs: initialState.inputs,
-        users: state.users.concat(action.user)
-      };
-    case 'REMOVE_USER' :
-      return {
-        ...state,
-        users: state.users.filter(user =>
-            user.id !== action.id
-          )
-      };
+      return produce(state, draft => {
+        draft.users.push(action.user);
+      });
+      // return {
+      //   inputs: initialState.inputs,
+      //   users: state.users.concat(action.user)
+      // };
+      case 'REMOVE_USER' :
+        return produce(state, draft => {
+          const index = draft.users.findIndex(user => user.id === action.id);
+          draft.users.splice(index, 1);
+        });
+      // return {
+      //   ...state,
+      //   users: state.users.filter(user =>
+      //       user.id !== action.id
+      //     )
+      // };
     case 'TOGGLE_USER' :
-      console.log(action.id);
-      return {
-        ...state,
-        users: state.users.map(user =>
-          user.id === action.id 
-            ? {...user, active: !user.active} 
-            : user
-          ) 
-      };
+        return produce(state, draft => {
+          const user = draft.users.find(user => user.id === action.id);
+          user.active = !user.active;
+        })
+      // return {
+      //   ...state,
+      //   users: state.users.map(user =>
+      //     user.id === action.id 
+      //       ? {...user, active: !user.active} 
+      //       : user
+      //     ) 
+      // };
     default : 
       throw new Error('Unhandled action in App.js-reducer');
   }
@@ -76,6 +87,8 @@ function countActiveUsers(users) {
   return users.filter(user => user.active).length;
 }
 
+export const UseDispatch = createContext(null);
+
 function App() {
   // const name = "Start React!";
   const style = {
@@ -85,50 +98,8 @@ function App() {
     padding: "1rem"
   }
 
-  const [form, onChange, onReset] = useInputsReducer({
-    username: '',
-    email: ''
-  })
   const [state, dispatch] = useReducer(reducer, initialState);
-  const {username, email} =form;
   const {users} = state;
-  const nextId = useRef(4);
-
-  // const onChange = useCallback(e => {
-  //   const {name, value} = e.target;
-  //   dispatch({
-  //     type: 'CHANGE_INPUT',
-  //     name,
-  //     value
-  //   });
-  // }, []);
-
-  const onCreate = useCallback(() => {
-    dispatch({
-      type: 'CREATE_USER',
-      user: {
-        id: nextId.current,
-        username,
-        email
-      }
-    });
-    nextId.current += 1;
-    onReset();
-  }, [username, email, onReset]);
-
-  const onRemove = useCallback(id => {
-    dispatch({
-      type: 'REMOVE_USER',
-      id
-    });
-  }, []);
-
-  const onToggle = useCallback(id => {
-    dispatch({
-      type: 'TOGGLE_USER',
-      id
-    });
-  }, []);
   const count = useMemo(() =>  countActiveUsers(users), [users]);
 
   return (
@@ -144,17 +115,10 @@ function App() {
             <div style={style}>{name}</div>
       */}
       <br/>
-      <UserList 
-        users={users} 
-        onRemove={onRemove}         
-        onToggle={onToggle}
-      />
-      <CreateUser 
-        username={username}
-        email={email}
-        onChange={onChange}
-        onCreate={onCreate}
-      />
+      <UseDispatch.Provider value={dispatch}>
+        <UserList users={users} />
+        <CreateUser />
+      </UseDispatch.Provider>
       <div>Actived Count : {count}</div>
       &nbsp;
       <ContextSample />

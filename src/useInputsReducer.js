@@ -8,11 +8,10 @@ function reducer (state, action) {
                 [action.name]: action.value
             }
         case 'RESET_INPUT' :
-            return {
-                ...state,
-                username: '',
-                email: ''
-            }
+            return Object.keys(state).reduce((acc, current) => {
+                acc[current] = '';
+                return acc;
+            }, {});
         default :
             throw new Error('Unhandled action in useInputsReducer');
     }

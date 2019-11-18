@@ -1,7 +1,9 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useContext} from 'react';
+import { UseDispatch } from './App';
 
-const User = React.memo(function User({user, onRemove, onToggle}) {
+const User = React.memo(function User({user}) {
     const {id, username, email, active} = user;
+    const dispatch = useContext(UseDispatch);
 
     useEffect(()=> {
         console.log(`${id} is mounted or updated`);
@@ -23,18 +25,24 @@ const User = React.memo(function User({user, onRemove, onToggle}) {
                 color: active ? 'green' : 'black',
                 cursor: 'pointer'
             }}
-            onClick={()=>onToggle(id)}
+            onClick={()=>dispatch({
+                type: 'TOGGLE_USER',
+                id
+            })}
             >
                 {username}
             </b>
             &nbsp;
             <span>({email})</span>
-            <button onClick={() => onRemove(id)}>Delete</button>
+            <button onClick={() => dispatch({
+                type: 'REMOVE_USER',
+                id
+            })}>Delete</button>
         </div>
     );
 });
 
-function UserList({users, onRemove, onToggle}) {
+function UserList({users}) {
     return (
         <div>
         {
@@ -45,8 +53,6 @@ function UserList({users, onRemove, onToggle}) {
                     user =>
                         <User 
                             user={user}
-                            onRemove={onRemove}
-                            onToggle={onToggle}    
                             key={user.id}
                         />
                 )
