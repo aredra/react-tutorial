@@ -8,8 +8,13 @@
 # testing
 /coverage
 
+# env
+/.vscode
+/.idea
+
 # production
 /build
+/dist
 
 # misc
 .DS_Store
