@@ -69,6 +69,7 @@
     "workbox-webpack-plugin": "5.1.4"
   },
   "scripts": {
+    "prepare": "husky install",
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js"
@@ -76,7 +77,14 @@
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest"
+      "react-app/jest",
+      "prettier"
+    ]
+  },
+  "lint-staged": {
+    "**/*.js": [
+      "prettier --write",
+      "git add"
     ]
   },
   "browserslist": {
@@ -147,5 +155,10 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "husky": "^7.0.0",
+    "lint-staged": "^11.0.0",
+    "prettier": "^2.3.2"
   }
 }
