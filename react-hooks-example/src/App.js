@@ -5,6 +5,9 @@ import Example2 from "./components/Example2";
 import Example3 from "./components/Example3";
 import Example4 from "./components/Example4";
 import Example5 from "./components/Example5";
+import UseMemoExample from "./components/UseMemoExample";
+import UseReducerExample from "./components/UseReducerExample";
+import UseRefExample from "./components/UseRefExample";
 import useWindowWidth from "./hooks/useWindowWidth";
 import withHasMounted from "./hocs/withHasMounted";
 import useHasMounted from "./hooks/useHasMounted";
@@ -21,6 +24,9 @@ function App({ hasMounted }) {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         {width}
+        <UseMemoExample />
+        <UseReducerExample />
+        <UseRefExample />
         <Example1 />
         <Example2 />
         <Example3 />
