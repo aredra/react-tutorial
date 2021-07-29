@@ -8,7 +8,6 @@ class ControlledComponent extends React.Component {
     return (
       <div>
         <input value={this.value} onChange={this.change} />
-        <button></button>
       </div>
     );
   }
