@@ -1,6 +1,8 @@
 import logo from "./logo.svg";
 import "./App.css";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import Modal from "./components/Modal";
+import MyInput from "./components/MyInput";
 
 // shouldComponentUpdate 를 PureComponent
 class Foo extends React.PureComponent {
@@ -31,31 +33,82 @@ const People = React.memo(({ name, age }) => {
   );
 });
 
+// function App() {
+//   const [state, setstate] = useState(0);
+
+//   // 컴포넌트에 연결되는 함수는 그냥 선언할 경우
+//   // 매번 새로 만들어져 컴포넌트 또한 매번 새로 만들게 된다.
+//   // useCallbakc 을 사용할 것
+//   const click = React.useCallback(() => {}, []);
+
+//   if (this.state.count % 2 === 0) {
+//     // return <Foo name="aa" />;
+//     return (
+//       <ul>
+//         <Foo key="2">second</Foo>
+//         <Foo key="3">third</Foo>
+//       </ul>
+//     );
+//   }
+
+//   // return <Foo name="bb" />;
+//   return (
+//     <ul>
+//       <Foo key="1">first</Foo>
+//       <Foo key="2">second</Foo>
+//       <Foo key="3">third</Foo>
+//     </ul>
+//   );
+// }
+
+/**
+ * @createPortal
+ */
+
+// function App() {
+//   const [visible, setVisible] = useState(false);
+
+//   const open = () => {
+//     setVisible(true);
+//   };
+
+//   const close = () => {
+//     setVisible(false);
+//   };
+
+//   return (
+//     <div>
+//       <button onClick={open}>open</button>
+//       {visible && (
+//         <Modal>
+//           <div
+//             style={{
+//               width: "100vw",
+//               height: "100vh",
+//               background: "rgba(0,0,0,.5)",
+//             }}
+//             onClick={close}
+//           >
+//             Happy Hacking
+//           </div>
+//         </Modal>
+//       )}
+//     </div>
+//   );
+// }
+
 function App() {
-  const [state, setstate] = useState(0);
+  const myInputRef = useRef();
 
-  // 컴포넌트에 연결되는 함수는 그냥 선언할 경우
-  // 매번 새로 만들어져 컴포넌트 또한 매번 새로 만들게 된다.
-  // useCallbakc 을 사용할 것
-  const click = React.useCallback(() => {}, []);
+  const click = () => {
+    console.log(myInputRef.current.value);
+  };
 
-  if (this.state.count % 2 === 0) {
-    // return <Foo name="aa" />;
-    return (
-      <ul>
-        <Foo key="2">second</Foo>
-        <Foo key="3">third</Foo>
-      </ul>
-    );
-  }
-
-  // return <Foo name="bb" />;
   return (
-    <ul>
-      <Foo key="1">first</Foo>
-      <Foo key="2">second</Foo>
-      <Foo key="3">third</Foo>
-    </ul>
+    <div>
+      <MyInput ref={myInputRef}></MyInput>
+      <button onClick={click}>send</button>
+    </div>
   );
 }
 
