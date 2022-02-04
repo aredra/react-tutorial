@@ -21,17 +21,27 @@
       const rootElement = document.getElementById("root");
 
       const App = () => {
-        const [keyword, setKeyword] = React.useState("");
-        const [result, setResult] = React.useState("");
-        const [typing, setTyping] = React.useState(false);
+        const useLocalStorage = (itemName, status = "") => {
+          const [item, setItem] = React.useState(
+            () => localStorage.getItem(itemName) || status
+          );
+
+          React.useEffect(() => {
+            localStorage.setItem(itemName, item);
+          }, [item]);
+
+          return [item, setItem];
+        };
+        const [keyword, setKeyword] = useLocalStorage("keyowrd", "");
+        const [result, setResult] = useLocalStorage("result", "");
+        const [typing, setTyping] = useLocalStorage("typing", false);
 
         const onChange = (e) => {
-          console.log(e);
+          setKeyword(e.target.value);
           if (e.target.value === "") {
             setTyping(false);
             return;
           }
-          setKeyword(e.target.value);
           setResult(`Looking for ${e.target.value}... `);
           setTyping(true);
         };
@@ -46,7 +56,12 @@
 
         return (
           <main>
-            <input type="text" onChange={onChange} onKeyPress={onKeyPress} />
+            <input
+              type="text"
+              onChange={onChange}
+              onKeyPress={onKeyPress}
+              value={keyword}
+            />
             <button onClick={onClick}>Search</button>
             {typing ? <p>{result}</p> : null}
           </main>
