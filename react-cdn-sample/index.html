@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React Reminder</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@17/umd/react.production.min.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+      const rootElement = document.getElementById("root");
+
+      const App = () => {
+        const [keyword, setKeyword] = React.useState("");
+        const [result, setResult] = React.useState("");
+        const [typing, setTyping] = React.useState(false);
+
+        const onChange = (e) => {
+          console.log(e);
+          if (e.target.value === "") {
+            setTyping(false);
+            return;
+          }
+          setKeyword(e.target.value);
+          setResult(`Looking for ${e.target.value}... `);
+          setTyping(true);
+        };
+        const onClick = () => {
+          setResult(`Result of ${keyword} ....`);
+        };
+        const onKeyPress = (e) => {
+          if (e.code === "Enter") {
+            onClick();
+          }
+        };
+
+        return (
+          <main>
+            <input type="text" onChange={onChange} onKeyPress={onKeyPress} />
+            <button onClick={onClick}>Search</button>
+            {typing ? <p>{result}</p> : null}
+          </main>
+        );
+      };
+
+      ReactDOM.render(<App />, rootElement);
+    </script>
+  </body>
+</html>
