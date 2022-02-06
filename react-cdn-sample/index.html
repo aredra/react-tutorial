@@ -93,14 +93,53 @@
         return <p>Hello World</p>;
       };
 
+      const LoginForm = () => {
+        const [userId, setUserId] = React.useState("");
+        const [password, setPassword] = React.useState("");
+        const [isValid, setIsValid] = React.useState(false);
+
+        React.useEffect(() => {
+          setIsValid(userId.length > 0 && password.length > 0);
+        }, [userId, password]);
+
+        const onChange = (e) => {
+          console.log(e.target.value);
+          if (e.target.name === "login-id") {
+            setUserId(e.target.value);
+          }
+          if (e.target.name === "login-pw") {
+            setPassword(e.target.value);
+          }
+        };
+
+        const onSubmit = (e) => {
+          e.preventDefault();
+          alert("Login");
+        };
+
+        return (
+          <ErrorBoundary fallback={FallBack}>
+            <form onSubmit={onSubmit}>
+              <label htmlFor="login-id">ID: </label>
+              <input type="text" name="login-id" onChange={onChange} />
+              <label htmlFor="login-pw">PW: </label>
+              <input type="password" name="login-pw" onChange={onChange} />
+              <button type="submit" disabled={!isValid}>
+                Login
+              </button>
+            </form>
+          </ErrorBoundary>
+        );
+      };
+
       const App = () => {
         const useLocalStorage = (itemName, status = "") => {
           const [item, setItem] = React.useState(
-            () => localStorage.getItem(itemName) || status
+            () => sessionStorage.getItem(itemName) || status
           );
 
           React.useEffect(() => {
-            localStorage.setItem(itemName, item);
+            sessionStorage.setItem(itemName, item);
           }, [item]);
 
           return [item, setItem];
@@ -148,6 +187,8 @@
             <ErrorBoundary fallback={FallBack}>
               <Child />
             </ErrorBoundary>
+            <hr />
+            <LoginForm />
           </main>
         );
       };
