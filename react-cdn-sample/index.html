@@ -20,6 +20,79 @@
     <script type="text/babel">
       const rootElement = document.getElementById("root");
 
+      class ErrorBoundary extends React.Component {
+        state = { error: null };
+
+        static getDerivedStateFromError(error) {
+          return { error };
+        }
+
+        componentDidCatch(error, errorInfo) {
+          console.error(error, errorInfo);
+        }
+
+        render() {
+          const { error } = this.state;
+          if (error) {
+            return this.props.fallback ? (
+              <this.props.fallback error={error} />
+            ) : (
+              <h1>Default error message.</h1>
+            );
+          }
+
+          return this.props.children;
+        }
+      }
+
+      const FallBack = ({ error }) => {
+        return <h1>{error.message}</h1>;
+      };
+
+      const Form = () => {
+        const [phoneNumber, setPhoneNumber] = React.useState("");
+        const [message, setMessage] = React.useState("");
+
+        const onChange = (e) => {
+          if (e.target.value !== "0" && phoneNumber.length === 0) {
+            setMessage("Phone number must start with 0");
+            return;
+          }
+          if (e.target.value.match(/[^0-9]/)) {
+            setMessage("Phone number must be 10 digits");
+            return;
+          }
+          setMessage("");
+          setPhoneNumber(e.target.value);
+        };
+
+        const handleSubmit = (e) => {
+          e.preventDefault();
+          const phoneNumber = e.target.elements.phone.value;
+          alert(phoneNumber);
+        };
+
+        return (
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="phone">Phone: </label>
+            <input
+              type="text"
+              id="phone"
+              name="phone"
+              onChange={onChange}
+              value={phoneNumber}
+            />
+            {message ? <p>{message}</p> : null}
+            <button type="submit">Submit</button>
+          </form>
+        );
+      };
+
+      const Child = () => {
+        throw new Error("Child is wrong!");
+        return <p>Hello World</p>;
+      };
+
       const App = () => {
         const useLocalStorage = (itemName, status = "") => {
           const [item, setItem] = React.useState(
@@ -36,6 +109,10 @@
         const [result, setResult] = useLocalStorage("result", "");
         const [typing, setTyping] = useLocalStorage("typing", false);
 
+        const inputRef = React.useRef();
+        React.useEffect(() => {
+          inputRef.current.focus();
+        }, []);
         const onChange = (e) => {
           setKeyword(e.target.value);
           if (e.target.value === "") {
@@ -58,12 +135,19 @@
           <main>
             <input
               type="text"
+              ref={inputRef}
               onChange={onChange}
               onKeyPress={onKeyPress}
               value={keyword}
             />
             <button onClick={onClick}>Search</button>
             {typing ? <p>{result}</p> : null}
+            <hr />
+            <Form />
+            <hr />
+            <ErrorBoundary fallback={FallBack}>
+              <Child />
+            </ErrorBoundary>
           </main>
         );
       };
