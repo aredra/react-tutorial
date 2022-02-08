@@ -132,6 +132,23 @@
         );
       };
 
+      const Clock = () => {
+        const [date, setDate] = React.useState(new Date());
+
+        React.useEffect(() => {
+          setInterval(() => {
+            setDate(new Date());
+          }, 1000);
+        }, []);
+
+        return (
+          <div>
+            <h1>Hello, world!</h1>
+            <h2>It is {date.toLocaleTimeString()}.</h2>
+          </div>
+        );
+      };
+
       const App = () => {
         const useLocalStorage = (itemName, status = "") => {
           const [item, setItem] = React.useState(
@@ -189,6 +206,8 @@
             </ErrorBoundary>
             <hr />
             <LoginForm />
+            <hr />
+            <Clock />
           </main>
         );
       };
