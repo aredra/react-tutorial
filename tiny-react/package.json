@@ -1,0 +1,17 @@
+{
+  "name": "tiny-react",
+  "version": "1.0.0",
+  "description": "simple react with vanila, babel",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel src -d dist -w",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.5",
+    "@babel/preset-react": "^7.16.7"
+  }
+}
