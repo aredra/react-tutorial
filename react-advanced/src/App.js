@@ -3,6 +3,8 @@ import "./App.css";
 import React, { useState, useRef } from "react";
 import Modal from "./components/Modal";
 import MyInput from "./components/MyInput";
+import Input from "./components/Input";
+import Button from "./components/Button";
 
 // shouldComponentUpdate 를 PureComponent
 class Foo extends React.PureComponent {
@@ -106,8 +108,10 @@ function App() {
 
   return (
     <div>
-      <MyInput ref={myInputRef}></MyInput>
-      <button onClick={click}>send</button>
+      <Input />
+      <Button />
+      {/* <MyInput ref={myInputRef}></MyInput>
+      <button onClick={click}>send</button> */}
     </div>
   );
 }
