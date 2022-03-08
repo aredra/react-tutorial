@@ -5,6 +5,7 @@ import Modal from "./components/Modal";
 import MyInput from "./components/MyInput";
 import Input from "./components/Input";
 import Button from "./components/Button";
+import Memo from "./components/Memo";
 
 // shouldComponentUpdate 를 PureComponent
 class Foo extends React.PureComponent {
@@ -110,6 +111,7 @@ function App() {
     <div>
       <Input />
       <Button />
+      <Memo />
       {/* <MyInput ref={myInputRef}></MyInput>
       <button onClick={click}>send</button> */}
     </div>
