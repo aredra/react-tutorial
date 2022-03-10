@@ -1,9 +1,9 @@
 import React from "react";
 import CommentItem from "./CommentItem";
-const Comments = ({ commentList }) => {
+const Comments = ({ comments }) => {
   return (
     <div>
-      {commentList.map((comment, index) => {
+      {comments.map((comment, index) => {
         return <CommentItem key={index} {...comment} />;
       })}
     </div>

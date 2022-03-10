@@ -6,6 +6,7 @@ import MyInput from "./components/MyInput";
 import Input from "./components/Input";
 import Button from "./components/Button";
 import Memo from "./components/Memo";
+import Example from "./components/context/Example";
 
 // shouldComponentUpdate 를 PureComponent
 class Foo extends React.PureComponent {
@@ -109,6 +110,7 @@ function App() {
 
   return (
     <div>
+      <Example />
       <Input />
       <Button />
       <Memo />
