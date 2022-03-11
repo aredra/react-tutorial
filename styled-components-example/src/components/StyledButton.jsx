@@ -6,7 +6,7 @@ const StyledButton = styled.button`
   border: 2px solid violet;
   color: violet;
   margin: 0 1em;
-  padding 0.25em 1em;
+  padding: 1em;
   font-size: 20px;
 
   ${(props) =>

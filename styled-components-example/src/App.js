@@ -3,6 +3,7 @@ import "./App.css";
 import StyledButton from "./components/StyledButton";
 import styled, { createGlobalStyle } from "styled-components";
 import StyledA from "./components/StyledA";
+import StyledComponentExample from "./components/StyledComponentExample";
 
 const PrimaryStyledButton = styled(StyledButton)`
   background: darkgreen;
@@ -36,7 +37,7 @@ function App() {
     <div className="App">
       <GlobalStyle />
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <StyledComponentExample />
         <p>
           <StyledButton>Button</StyledButton>
           <StyledButton primary>Button</StyledButton>
