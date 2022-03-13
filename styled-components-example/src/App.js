@@ -4,6 +4,7 @@ import StyledButton from "./components/StyledButton";
 import styled, { createGlobalStyle } from "styled-components";
 import StyledA from "./components/StyledA";
 import StyledComponentExample from "./components/StyledComponentExample";
+import EmotionComponent from "./components/EmotionComponent";
 
 const PrimaryStyledButton = styled(StyledButton)`
   background: darkgreen;
@@ -50,6 +51,9 @@ function App() {
           <StyledA href="https://google.com">Go Google</StyledA>
         </p>
       </header>
+      <EmotionComponent>
+        <p>Emotion Component</p>
+      </EmotionComponent>
     </div>
   );
 }
