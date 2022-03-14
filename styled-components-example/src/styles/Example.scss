@@ -1,0 +1,69 @@
+@use "base";
+
+// https://sass-lang.com/documentation/syntax
+
+$font-stack: Helvetica, sans-serif;
+$primary-color: #333;
+
+@mixin theme($theme: DarkGray) {
+  background: $theme;
+  box-shadow: 0 0 1px rgba($theme, 0.25);
+  color: #fff;
+}
+
+%message-shared {
+  border: 1px solid #ccc;
+  padding: 10px;
+  color: #333;
+}
+
+body {
+  font: 100% $font-stack;
+  color: $primary-color;
+}
+
+div {
+  padding: 1rem;
+  background-color: $primary-color;
+}
+
+.info {
+  @include theme;
+}
+.alert {
+  @include theme($theme: DarkRed);
+}
+.success {
+  @include theme($theme: DarkGreen);
+}
+
+.message {
+  @extend %message-shared;
+}
+
+.success {
+  @extend %message-shared;
+  border-color: green;
+}
+
+.error {
+  @extend %message-shared;
+  border-color: red;
+}
+
+.warning {
+  @extend %message-shared;
+  border-color: yellow;
+}
+
+@mixin corner-icon($name, $top-or-bottom, $left-or-right) {
+  .icon-#{$name} {
+    position: absolute;
+    #{$top-or-bottom}: 0;
+    #{$left-or-right}: 0;
+  }
+}
+
+.icon {
+  @include corner-icon("mail", top, left);
+}

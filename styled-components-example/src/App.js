@@ -5,6 +5,7 @@ import styled, { createGlobalStyle } from "styled-components";
 import StyledA from "./components/StyledA";
 import StyledComponentExample from "./components/StyledComponentExample";
 import EmotionComponent from "./components/EmotionComponent";
+import SassComponent from "./components/SassComponent";
 
 const PrimaryStyledButton = styled(StyledButton)`
   background: darkgreen;
@@ -38,6 +39,7 @@ function App() {
     <div className="App">
       <GlobalStyle />
       <header className="App-header">
+        <SassComponent />
         <StyledComponentExample />
         <p>
           <StyledButton>Button</StyledButton>
